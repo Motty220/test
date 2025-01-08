@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>מערכת ניהול שיעורי תורה</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f4d03f;
+            font-family: Arial, sans-serif;
+        }
+        .admin-panel {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background: #2c3e50;
+            color: #f4d03f;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+        button:hover {
+            background: #34495e;
+        }
+        #preview {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            direction: ltr;
+            font-family: monospace;
+        }
+        .success {
+            background-color: #4CAF50 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-panel">
+        <h1>מערכת ניהול שיעורי תורה</h1>
+        
+        <div class="input-group">
+            <label for="weeklyParasha">פרשת השבוע:</label>
+            <input type="text" id="weeklyParasha" placeholder="הכנס את שם הפרשה">
+        </div>
+        
+        <div class="input-group">
+            <label for="downloadUrl">קישור להורדה:</label>
+            <input type="text" id="downloadUrl" placeholder="הכנס את הקישור להורדה">
+        </div>
+        
+        <div class="buttons">
+            <button id="generateButton">צור HTML</button>
+            <button id="copyButton">העתק קוד</button>
+        </div>
+        
+        <div id="preview"></div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('generateButton').addEventListener('click', generateHTML);
+        document.getElementById('copyButton').addEventListener('click', copyToClipboard);
+    });
+
+    function generateHTML() {
+        const weeklyParasha = document.getElementById('weeklyParasha').value;
+        const downloadUrl = document.getElementById('downloadUrl').value;
+
+        const button1 = document.getElementById('generateButton');
+        button1.classList.add('success');
+        button1.innerText = 'נוצר בהצלחה';
+
+        const htmlTemplate = `<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>שפתי כהן - אנימציה</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4d03f;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <img src="https://raw.githubusercontent.com/Motty220/test/refs/heads/main/LbMPVVaeee7W.gif" alt="אנימציה">
+</body>
+</html>`
+
+
+        document.getElementById('preview').innerText = htmlTemplate;
+    }
+
+    function copyToClipboard() {
+        const preview = document.getElementById('preview');
+        const range = document.createRange();
+        window.getSelection().removeAllRanges();
+        range.selectNode(preview);
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+        
+        const button2 = document.getElementById('copyButton');
+        button2.classList.add('success');
+        button2.innerText = 'הועתק';
+        
+        setTimeout(() => {
+            button2.classList.remove('success');
+            button2.innerText = 'העתק קוד';
+        }, 2000);
+    }
+    </script>
+</body>
+</html>
